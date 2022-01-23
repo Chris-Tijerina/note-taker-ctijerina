@@ -1,6 +1,7 @@
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const path = require('path');
 
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true}));
@@ -15,9 +16,8 @@ app.get('/', (req, res) => {
   });
 
 app.get("/api/db", (req, res) => {
-    res.json();
+    res.send("hello");
 });
-
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
