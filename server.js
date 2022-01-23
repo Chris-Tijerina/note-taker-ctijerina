@@ -17,8 +17,11 @@ app.get("/api/notes", (req, res) => {
     fs.readFile('./db/db.json', 'utf8', function (err, data) {
         // Display the file content
         console.log(data);
+        const notes = JSON.parse(data);
+        return res.json(notes);
     });
     console.log('readFile called');
+
 });
 
 app.post("/api/notes", (req, res) => {
