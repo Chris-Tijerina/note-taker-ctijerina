@@ -2,7 +2,7 @@ let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
-let noteList;  
+let noteList;
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -33,14 +33,15 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
-  fetch('/api/notes', {
+const saveNote = (note) => {
+  return fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
   });
+}
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -51,6 +52,7 @@ const deleteNote = (id) =>
   });
 
 const renderActiveNote = () => {
+  console.log(";;")
   hide(saveNoteBtn);
 
   if (activeNote.id) {
@@ -71,7 +73,9 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
+  
   saveNote(newNote).then(() => {
+    console.log("lol")
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -90,6 +94,7 @@ const handleNoteDelete = (e) => {
   }
 
   deleteNote(noteId).then(() => {
+    console.log("hi")
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -119,7 +124,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  
+
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }

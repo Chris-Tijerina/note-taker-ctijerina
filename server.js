@@ -17,8 +17,6 @@ app.use(express.static('public'));
 app.get("/api/notes", (req, res) => {
     // Use fs.readFile() method to read the file
     fs.readFile('./db/db.json', 'utf8', function (err, data) {
-        // Display the file content
-        console.log(data);
         // create variable to hold json data
         let currentNotes = JSON.parse(data);
         // return the notes
@@ -44,6 +42,27 @@ app.post("/api/notes", (req, res) => {
         JSON.stringify({ notes: savedNotes }, null, 2)
     );
 });
+
+app.delete("/api/notes/:id", (req, res) => {
+    // Use fs.readFile() method to read the file
+    console.log(req.params.id)
+
+    fs.readFile('./db/db.json', 'utf8', function (err, data) {
+        // assign the data to a variable
+        currentNotes = JSON.parse(data);
+        // find the id of the clicked note to delete
+        const targetNote = currentNotes.notes.findIndex(note => note.id == req.params.id);
+        console.log(targetNote);
+        // remove the selected object from the array
+        currentNotes.notes.splice(targetNote, 1);
+        console.log(currentNotes);
+        fs.writeFileSync(
+            path.join(__dirname, './db/db.json'),
+            JSON.stringify({ notes: currentNotes.notes }, null, 2)
+        );
+
+    })
+})
 
 
 app.get('/', (req, res) => {
